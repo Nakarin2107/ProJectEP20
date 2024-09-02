@@ -70,15 +70,15 @@ document.getElementById('borrowForm').addEventListener('submit', function(event)
     localStorage.setItem('requests', JSON.stringify(requests));
 
     // แสดงการแจ้งเตือนหลังจากบันทึกคำขอสำเร็จ
-    Swal.fire({
-        icon: 'success',
-        title: 'คำขอถูกบันทึกสำเร็จ!',
-        text: 'คำขอของคุณถูกบันทึกแล้ว',
-        confirmButtonText: 'ตกลง'
-    }).then(() => {
-        // ล้างข้อมูลในฟอร์ม
-        document.getElementById('borrowForm').reset();
-    });
+    // Swal.fire({
+    //     icon: 'success',
+    //     title: 'คำขอถูกบันทึกสำเร็จ!',
+    //     text: 'คำขอของคุณถูกบันทึกแล้ว',
+    //     confirmButtonText: 'ตกลง'
+    // }).then(() => {
+    //     // ล้างข้อมูลในฟอร์ม
+    //     document.getElementById('borrowForm').reset();
+    // });
 });
 
 

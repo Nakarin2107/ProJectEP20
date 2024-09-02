@@ -1,6 +1,4 @@
-
-
-const maxRequestsPerPage = 8;
+const maxRequestsPerPage = 10;
 const totalPages = 1000; 
 let currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1; // กำหนดหน้าปัจจุบันจาก URL หรือเป็นหน้าแรก
 
@@ -18,13 +16,13 @@ function getRequests() {
 // ฟังก์ชันสร้างรายงานตามเดือนและปีที่เลือก
 function generateReport() {
     try {
-        const monthInput = document.getElementById('reportMonth').value;
-        if (!monthInput) {
-            console.warn('กรุณาเลือกเดือนและปี');
+        const selectedMonth = document.getElementById('monthSelect').value;
+        const selectedYear = parseInt(document.getElementById('yearSelect').value, 10);
+        if (!selectedMonth || isNaN(selectedYear)) {
+            Swal.fire('กรุณาเลือกเดือนและปี');
             return;
         }
 
-        const [selectedYear, selectedMonth] = monthInput.split('-').map(Number);
         const requests = getRequests();
 
         // กรองคำขอตามเดือนและปีที่เลือก โดยไม่กรองสถานะ
@@ -32,9 +30,21 @@ function generateReport() {
             const requestDate = new Date(request.dateTime);
             return (
                 requestDate.getFullYear() === selectedYear &&
-                requestDate.getMonth() + 1 === selectedMonth
+                requestDate.getMonth() + 1 === parseInt(selectedMonth, 10)
             );
         });
+
+        // ตรวจสอบว่าพบข้อมูลหรือไม่
+        if (filteredRequests.length === 0) {
+            // แสดงการแจ้งเตือนด้วย SweetAlert2
+            Swal.fire({
+                icon: 'warning',
+                title: 'ไม่พบข้อมูล',
+                text: 'ไม่พบข้อมูลที่ตรงกับเดือนและปีที่เลือก',
+                confirmButtonText: 'ตกลง'
+            });
+            return; // ออกจากฟังก์ชันหากไม่พบข้อมูล
+        }
 
         displayReport(filteredRequests);
     } catch (error) {
@@ -42,15 +52,14 @@ function generateReport() {
     }
 }
 
+
 // ฟังก์ชันแสดงข้อมูลในตารางรายงาน
 function displayReport(requests) {
     const reportTableBody = document.querySelector('#reportTable tbody');
     reportTableBody.innerHTML = ''; // ล้างข้อมูลเก่าออกก่อน
 
     if (requests.length === 0) {
-        const emptyRow = document.createElement('tr');
-        emptyRow.innerHTML = '<td colspan="6">ไม่พบข้อมูลที่ตรงกับเดือนและปีที่เลือก</td>';
-        reportTableBody.appendChild(emptyRow);
+        Swal.fire('ไม่พบข้อมูลที่ตรงกับเดือนและปีที่เลือก');
         return;
     }
 
@@ -68,8 +77,7 @@ function displayReport(requests) {
             <td>${request.studentName}</td>
             <td>${request.studentId}</td>
             <td>${request.staffName || '-'}</td>
-            <td>${request.status}</td> <!-- เพิ่มสถานะ -->
-
+            <td>${request.status}</td>
         `;
         reportTableBody.appendChild(row);
     });
@@ -122,7 +130,6 @@ function updatePaginationInfo(totalRequests) {
     };
     paginationContainer.appendChild(prevButton);
 
-    
     // สร้างปุ่มหมายเลขเพจ
     let startPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
     let endPage = startPage + maxVisibleButtons - 1;
@@ -173,11 +180,14 @@ function updatePaginationInfo(totalRequests) {
 
 // กำหนดค่าเดือนปัจจุบันเมื่อหน้าเว็บโหลด
 document.addEventListener("DOMContentLoaded", function() {
-    const reportMonthInput = document.getElementById("reportMonth");
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // เพิ่มเลข 0 ข้างหน้าเดือนที่มีหลักเดียว
-    reportMonthInput.value = `${year}-${month}`;
+    const currentDate = new Date();
+    const monthSelect = document.getElementById('monthSelect');
+    const yearInput = document.getElementById('yearSelect');
+
+    // ตั้งค่าเดือนปัจจุบัน
+    monthSelect.value = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    // ตั้งค่าปีปัจจุบัน
+    yearInput.value = currentDate.getFullYear();
 });
 
 // เรียกฟังก์ชันเพื่อสร้างรายงานเมื่อหน้าโหลดเสร็จ

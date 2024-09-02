@@ -16,7 +16,7 @@ body {
 }
 
 .containerx {
-    max-width: 1440px !important;
+    max-width: 1440px;
     margin: 0 auto;
 }
 
@@ -121,7 +121,6 @@ tr:nth-child(even) {
 .collapse .navbar-collapse a {
     margin: 0 2rem 0 2rem;
 }
-
 .summaryContainer {
     text-align: center;
 }
