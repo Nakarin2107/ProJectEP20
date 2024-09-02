@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- เพิ่มลิงก์ไปยัง SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* สไตล์ปุ่มและพื้นหลังของ SweetAlert2 */
+        .swal2-popup {
+            background-color: #ffffff; /* พื้นหลังสีขาว */
+            color: #333; /* สีตัวอักษร */
+            border-radius: 10px;
+        }
+        .swal2-title {
+            color: #ff7043; /* สีส้มสำหรับหัวข้อ */
+        }
+        .swal2-styled.swal2-confirm {
+            background-color: #ff7043; /* สีส้มสำหรับปุ่มยืนยัน */
+            border: none;
+        }
+        .swal2-styled.swal2-cancel {
+            background-color: #f0f0f0; /* สีขาวสำหรับปุ่มยกเลิก */
+            color: #333;
+            border: none;
+        }
+        .s {
+            display: flex; /* Changed to flex for better alignment */
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 1rem 0;
+            border: 1px solid #333;
+            padding: 1rem; /* Added padding for spacing */
+            border-radius: 8px; /* Rounded border */
+        }
+    
+        .s button {
+            margin: 0 0.5rem; /* Space between buttons */
+            padding: 0.5rem 1rem; /* More padding for buttons */
+            border-radius: 8px; /* Rounded buttons */
+            border: 1px solid #333; /* Consistent border */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+    
+        .s button:hover {
+            background-color: #e0e0e0; /* Light gray hover effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="s">
+        <button onclick="showAllUsersWithDetails()">แสดงผู้ใช้ทั้งหมด</button>
+        <button onclick="resetUserDetails()">รีเซ็ตชื่อและรหัสผ่าน</button>
+        <button onclick="clearAllUsers()">ลบผู้ใช้ทั้งหมด</button>
+    </div>
+    
+
+    <script src="main.js/showuser.js"></script>
+</body>
+</html>
